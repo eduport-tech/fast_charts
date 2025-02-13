@@ -257,63 +257,58 @@ class _StackedBarChartState<D, T> extends State<StackedBarChart<D, T>>
   Widget build(final BuildContext context) {
     final theme = Theme.of(context);
     return LayoutBuilder(
-        builder: (context, constraints) => GestureDetector(
-              onTap: () => print("xjxjxjxjxjx ${constraints.biggest.width}"),
-              child: CustomPaint(
-                size: constraints.biggest,
-                painter: BarPainter(
-                  data: _stacks,
-                  animation: _currentAnimation,
-                  ticksResolver: _ticksResolver,
-                  measureFormatter: widget.measureFormatter,
-                  showZeroValues: widget.showZeroValues,
-                  mainAxisTextStyle: widget.mainAxisTextStyle ??
-                      TextStyle(
-                        fontSize: 12.0,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                  crossAxisTextStyle: widget.crossAxisTextStyle ??
-                      TextStyle(
-                        fontSize: 12.0,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                  axisColor: widget.axisColor ?? theme.colorScheme.onSurface,
-                  axisThickness: widget.axisThickness,
-                  guideLinesColor: widget.guideLinesColor ??
-                      theme.colorScheme.onSurface.withOpacity(0.1),
-                  guideLinesThickness: widget.guideLinesThickness,
-                  mainAxisLabelsOffset: widget.mainAxisLabelsOffset,
-                  crossAxisLabelsOffset: widget.crossAxisLabelsOffset,
-                  mainAxisWidth: widget.mainAxisWidth,
-                  crossAxisWidth: widget.crossAxisWidth,
-                  showMainAxisLine: widget.showMainAxisLine,
-                  showCrossAxisLine: widget.showCrossAxisLine,
-                  barPadding: widget.barPadding,
-                  barSpacing: widget.barSpacing,
-                  padding: widget.padding,
-                  clipBehavior: widget.clipBehavior,
-                  function: (p0) {
-                    final List<BarData> data = [];
-                    double totalHeight = 0;
-                  
-                    for (var element in p0.entries) {
-                      log("key ${element.key}");
-                      for (var element1 in element.value.segments.entries) {
-                        final segment = element1.value;
-                        totalHeight += segment.$1.height;
-                      }
-                      data.add(BarData(
-                          index: element.key,
-                          height: totalHeight,
-                          width: element.value.segments.entries.first.value.$1.width));
-              
-                      totalHeight = 0;
-                    }
-                    if (widget.onBarTapped != null) widget.onBarTapped!(data);
-                  },
+        builder: (context, constraints) => CustomPaint(
+          size: constraints.biggest,
+          painter: BarPainter(
+            data: _stacks,
+            animation: _currentAnimation,
+            ticksResolver: _ticksResolver,
+            measureFormatter: widget.measureFormatter,
+            showZeroValues: widget.showZeroValues,
+            mainAxisTextStyle: widget.mainAxisTextStyle ??
+                TextStyle(
+                  fontSize: 12.0,
+                  color: theme.colorScheme.onSurface,
                 ),
-              ),
-            ));
+            crossAxisTextStyle: widget.crossAxisTextStyle ??
+                TextStyle(
+                  fontSize: 12.0,
+                  color: theme.colorScheme.onSurface,
+                ),
+            axisColor: widget.axisColor ?? theme.colorScheme.onSurface,
+            axisThickness: widget.axisThickness,
+            guideLinesColor: widget.guideLinesColor ??
+                theme.colorScheme.onSurface.withOpacity(0.1),
+            guideLinesThickness: widget.guideLinesThickness,
+            mainAxisLabelsOffset: widget.mainAxisLabelsOffset,
+            crossAxisLabelsOffset: widget.crossAxisLabelsOffset,
+            mainAxisWidth: widget.mainAxisWidth,
+            crossAxisWidth: widget.crossAxisWidth,
+            showMainAxisLine: widget.showMainAxisLine,
+            showCrossAxisLine: widget.showCrossAxisLine,
+            barPadding: widget.barPadding,
+            barSpacing: widget.barSpacing,
+            padding: widget.padding,
+            clipBehavior: widget.clipBehavior,
+            function: (p0) {
+              final List<BarData> data = [];
+              double totalHeight = 0;
+            
+              for (var element in p0.entries) {
+                for (var element1 in element.value.segments.entries) {
+                  final segment = element1.value;
+                  totalHeight += segment.$1.height;
+                }
+                data.add(BarData(
+                    index: element.key,
+                    height: totalHeight,
+                    width: element.value.segments.entries.first.value.$1.width));
+                totalHeight = 0;
+              }
+              if (widget.onBarTapped != null) widget.onBarTapped!(data);
+            },
+          ),
+        ));
   }
 
   bool _dataIsDifferent(
