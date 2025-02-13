@@ -128,7 +128,7 @@ class _StackedBarSinglePageState extends State<StackedBarSinglePage>
           animationDuration: const Duration(milliseconds: 350),
           onBarTapped: (p0) {
             for (var element in p0) {
-           print("llll ${element.height} ${element.index}");
+           print("llll ${element.width} ${element.index}");
             }
           },
         ),
