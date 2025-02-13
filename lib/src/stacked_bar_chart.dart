@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,9 @@ class BarData {
   final int index;
   final double height;
   final double width;
+  final Offset offset;
 
-  BarData({required this.index, required this.height, required this.width});
+  BarData({required this.index, required this.height, required this.width,required this.offset});
 }
 
 /// Shows several series of data as stacked bars.
@@ -290,23 +292,38 @@ class _StackedBarChartState<D, T> extends State<StackedBarChart<D, T>>
             barSpacing: widget.barSpacing,
             padding: widget.padding,
             clipBehavior: widget.clipBehavior,
-            function: (p0) {
-              final List<BarData> data = [];
-              double totalHeight = 0;
-            
-              for (var element in p0.entries) {
-                for (var element1 in element.value.segments.entries) {
-                  final segment = element1.value;
-                  totalHeight += segment.$1.height;
-                }
-                data.add(BarData(
-                    index: element.key,
-                    height: totalHeight,
-                    width: element.value.segments.entries.first.value.$1.width));
-                totalHeight = 0;
-              }
-              if (widget.onBarTapped != null) widget.onBarTapped!(data);
-            },
+ function: (stack, offset) {
+  log("message $offset");
+  final List<BarData> data = [];
+  double totalHeight = 0;
+  
+  for (var element in stack.entries) {
+    Offset currentOffsets = Offset.zero;
+    
+    // Use the main element.key to get the correct offset
+    if (offset.isNotEmpty && element.key < offset.length) {
+      currentOffsets = offset[element.key].$1;
+    }
+    
+    for (var element1 in element.value.segments.entries) {
+      final segment = element1.value;
+      totalHeight += segment.$1.height;
+    }
+    
+    data.add(
+      BarData(
+        index: element.key,
+        height: totalHeight,
+        width: element.value.segments.entries.first.value.$1.width,
+        offset: currentOffsets,
+      )
+    );
+    
+    totalHeight = 0;
+  }
+  
+  if (widget.onBarTapped != null) widget.onBarTapped!(data);
+},
           ),
         ));
   }

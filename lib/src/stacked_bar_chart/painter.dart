@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:math';
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -34,7 +35,7 @@ class BarPainter extends CustomPainter
   final double barSpacing;
   final EdgeInsets padding;
   final Clip clipBehavior;
-  final Function(Map<int, _LayoutStack>) function;
+  final Function(Map<int, _LayoutStack>,List<(Offset, Paragraph)>) function;
 
   BarPainter({
     required this.data,
@@ -107,9 +108,7 @@ class BarPainter extends CustomPainter
       canvas.drawParagraph(paragraph, offset);
     }
     final stacks = _stacks = _getStacks(layoutData);
-    if(function!=null){
-     function!(stacks);
-    }
+     function(stacks,layoutData.crossLabels);
 
     for (final entry in stacks.entries) {
       final stack = entry.value;
@@ -122,7 +121,6 @@ class BarPainter extends CustomPainter
       for (final entry in stack.segments.entries) {
         final segment = entry.value;
         final (rect, paint) = segment;
-        print("colors  ${segment.$2.toString()} size ${segment.$1.height}");
         canvas.drawRect(rect, paint);
       }
       if (clip) {
