@@ -1,0 +1,19 @@
+name: fast_charts
+description: A package of high-performance customizable charts, including horizontal and vertical stacked bar charts, group charts and pie charts with change animation.
+version: 0.2.2
+repository: https://github.com/darkstarx/fast_charts
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
