@@ -295,19 +295,18 @@ class _StackedBarChartState<D, T> extends State<StackedBarChart<D, T>>
                   function: (p0) {
                     final List<BarData> data = [];
                     double totalHeight = 0;
-                    double totalWidth = 0;
+                  
                     for (var element in p0.entries) {
                       log("key ${element.key}");
                       for (var element1 in element.value.segments.entries) {
                         final segment = element1.value;
                         totalHeight += segment.$1.height;
-                        totalWidth += segment.$1.width;
                       }
                       data.add(BarData(
                           index: element.key,
                           height: totalHeight,
-                          width: totalWidth));
-                      totalWidth = 0;
+                          width: element.value.segments.entries.first.value.$1.width));
+              
                       totalHeight = 0;
                     }
                     if (widget.onBarTapped != null) widget.onBarTapped!(data);
