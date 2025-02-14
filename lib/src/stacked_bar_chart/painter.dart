@@ -504,7 +504,6 @@ class BarPainter extends CustomPainter
           ? upperMainZeroOffset
           : lowerMainZeroOffset;
         crossOffset = innerRect.left + mainAxisField + barPadding;
-        print("lloppll $crossOffset");
         crossOffsetCallBack(crossOffset);
     }
     for (var i = 0; i < data.stacks.length; ++i) {
