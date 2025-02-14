@@ -156,8 +156,8 @@ class StackedBarChart<D, T> extends StatefulWidget {
 
   /// The curve of the change animation.
   final Curve animationCurve;
-  final Function(List<BarData>)? onBarTapped;
-
+  final Function(List<BarData>)? onChartCreate;
+  final Function(double)? onAxisMake;
   const StackedBarChart(
       {super.key,
       required this.data,
@@ -186,7 +186,7 @@ class StackedBarChart<D, T> extends StatefulWidget {
       this.radius = Radius.zero,
       this.animationDuration = Duration.zero,
       this.animationCurve = Curves.easeOut,
-      this.onBarTapped});
+      this.onChartCreate,this.onAxisMake});
 
   @override
   State<StackedBarChart> createState() => _StackedBarChartState<D, T>();
@@ -292,8 +292,10 @@ class _StackedBarChartState<D, T> extends State<StackedBarChart<D, T>>
             barSpacing: widget.barSpacing,
             padding: widget.padding,
             clipBehavior: widget.clipBehavior,
+            crossOffsetCallBack: (width){
+              if (widget.onAxisMake != null) widget.onAxisMake!(width);
+            },
  function: (stack, offset) {
-  log("message $offset");
   final List<BarData> data = [];
   double totalHeight = 0;
   
@@ -322,7 +324,7 @@ class _StackedBarChartState<D, T> extends State<StackedBarChart<D, T>>
     totalHeight = 0;
   }
   
-  if (widget.onBarTapped != null) widget.onBarTapped!(data);
+  if (widget.onChartCreate != null) widget.onChartCreate!(data);
 },
           ),
         ));

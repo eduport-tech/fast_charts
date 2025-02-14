@@ -115,22 +115,36 @@ class _StackedBarSinglePageState extends State<StackedBarSinglePage>
     return Card(
       child: SizedBox(
         height: 300,
-        child: StackedBarChart(
-          data: _data,
-          measureFormatter: number.format,
-          valueAxis: Axis.vertical,
-          inverted: false,
-          minTickSpacing: 40,
-          barPadding: 10,
-          barSpacing: 10,
-          padding: const EdgeInsets.all(16.0),
-          radius: const Radius.circular(16),
-          animationDuration: const Duration(milliseconds: 350),
-          onBarTapped: (p0) {
-            for (var element in p0) {
-           print("llll ${element.width} ${element.index} ${element.offset}");
-            }
-          },
+        child: Stack(
+          children: [
+            Positioned(
+              left: 52.548828125,
+              bottom: 200,
+              child: Container(
+                color: Colors.red,
+                width: 10,
+                height: 30,
+              ),
+            ),
+            StackedBarChart(
+              data: _data,
+              measureFormatter: number.format,
+              valueAxis: Axis.vertical,
+              inverted: false,
+              minTickSpacing: 40,
+              barPadding: 10,
+              barSpacing: 10,
+              padding: const EdgeInsets.all(16.0),
+              radius: const Radius.circular(16),
+              animationDuration: const Duration(milliseconds: 350),
+                     onAxisMake: (p0) => print("sshhdh $p0"),
+              onChartCreate: (p0) {
+                for (var element in p0) {
+               print("llll ${element.width} ${element.index} ${element.offset} ");
+                }
+              },
+            ),
+          ],
         ),
       ),
     );

@@ -36,7 +36,7 @@ class BarPainter extends CustomPainter
   final EdgeInsets padding;
   final Clip clipBehavior;
   final Function(Map<int, _LayoutStack>,List<(Offset, Paragraph)>) function;
-
+  final Function(double) crossOffsetCallBack;
   BarPainter({
     required this.data,
     this.animation,
@@ -59,7 +59,8 @@ class BarPainter extends CustomPainter
     this.barSpacing = 0.0,
     this.padding = EdgeInsets.zero,
     this.clipBehavior = Clip.hardEdge,
-    required this.function
+    required this.function,
+    required this.crossOffsetCallBack
   })
   : super(repaint: animation);
 
@@ -287,10 +288,6 @@ class BarPainter extends CustomPainter
         );
 
       }
-     result.forEach((key, stack) {
-  print('Stack $key height: ${stack.clipRRect.height}');
-    print('Stack $key width: ${stack.clipRRect.width}');
-});
       return result;
     }
   }
@@ -507,6 +504,8 @@ class BarPainter extends CustomPainter
           ? upperMainZeroOffset
           : lowerMainZeroOffset;
         crossOffset = innerRect.left + mainAxisField + barPadding;
+        print("lloppll $crossOffset");
+        crossOffsetCallBack(crossOffset);
     }
     for (var i = 0; i < data.stacks.length; ++i) {
       final stack = data.stacks[i];

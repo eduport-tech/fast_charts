@@ -152,7 +152,8 @@ class _StackedBarListPageState extends State<StackedBarListPage>
           barSpacing: 10,
           padding: const EdgeInsets.all(16.0),
           radius: const Radius.circular(6),
-          onBarTapped: (value){
+          onAxisMake: (p0) => dev.log("sshhdh $p0"),
+          onChartCreate: (value){
             for (var element in value) {
               dev.log("llll ${element.height} ${element.index}");
             }
